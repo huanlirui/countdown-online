@@ -1,68 +1,66 @@
+/*
+ * @Description:
+ */
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
+import { Card } from "@/components/ui/card";
+import Link from "next/link";
+
+export const metadata = {
+  title: "倒计时工具 | 简单好用的在线计时器",
+  description: "免费在线倒计时工具，支持自定义时间，全屏显示，多种模式可选。适用于演讲、考试、运动等场景。",
+  keywords: "倒计时,计时器,在线工具,全屏倒计时,定时器"
+};
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image className="dark:invert" src="/next.svg" alt="Next.js logo" width={180} height={38} priority />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="min-h-screen bg-gradient-to-b from-background to-muted">
+      {/* Hero Section */}
+      <main className="container mx-auto px-4 py-16">
+        <h1 className="text-4xl md:text-6xl font-bold text-center mb-6">简单易用的在线倒计时工具</h1>
+        <p className="text-lg text-center text-muted-foreground mb-12">为您的每个重要时刻提供精确计时</p>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image className="dark:invert" src="/vercel.svg" alt="Vercel logomark" width={20} height={20} />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+        {/* Quick Start Buttons */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-16">
+          <Link href="/countdown/3600">
+            <Card className="p-6 hover:shadow-lg transition-shadow cursor-pointer">
+              <h3 className="text-xl font-semibold mb-2">1小时倒计时</h3>
+              <p className="text-sm text-muted-foreground">适用于考试、演讲等场景</p>
+            </Card>
+          </Link>
+          <Link href="/countdown/1800">
+            <Card className="p-6 hover:shadow-lg transition-shadow cursor-pointer">
+              <h3 className="text-xl font-semibold mb-2">30分钟倒计时</h3>
+              <p className="text-sm text-muted-foreground">适用于短会、休息等场景</p>
+            </Card>
+          </Link>
+          <Link href="/countdown/custom">
+            <Card className="p-6 hover:shadow-lg transition-shadow cursor-pointer">
+              <h3 className="text-xl font-semibold mb-2">自定义倒计时</h3>
+              <p className="text-sm text-muted-foreground">自由设置您需要的时间</p>
+            </Card>
+          </Link>
         </div>
+
+        {/* Features Section */}
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+          <div className="text-center">
+            <h3 className="text-xl font-semibold mb-2">全屏显示</h3>
+            <p className="text-muted-foreground">清晰大字体，远距离可见</p>
+          </div>
+          <div className="text-center">
+            <h3 className="text-xl font-semibold mb-2">多种主题</h3>
+            <p className="text-muted-foreground">支持明暗模式，多种颜色方案</p>
+          </div>
+          <div className="text-center">
+            <h3 className="text-xl font-semibold mb-2">声音提醒</h3>
+            <p className="text-muted-foreground">时间到期自动提醒，防止遗漏</p>
+          </div>
+        </section>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image aria-hidden src="/file.svg" alt="File icon" width={16} height={16} />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image aria-hidden src="/window.svg" alt="Window icon" width={16} height={16} />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image aria-hidden src="/globe.svg" alt="Globe icon" width={16} height={16} />
-          Go to nextjs.org →
-        </a>
-        <Button>Click me</Button>
+
+      {/* Footer */}
+      <footer className="container mx-auto px-4 py-8 text-center border-t">
+        <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} 倒计时工具 - 让时间管理更简单</p>
       </footer>
     </div>
   );
