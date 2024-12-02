@@ -1,5 +1,5 @@
 /*
- * @Description: 
+ * @Description:
  */
 export interface Theme {
   id: string;
@@ -12,11 +12,11 @@ export interface Theme {
 
 export const defaultThemes: Theme[] = [
   {
-    id: 'default',
-    name: '默认主题',
-    background: '#ffffff',
-    text: '#000000',
-    buttonPrimary: '#2563eb',
-    buttonSecondary: '#4b5563'
+    id: "default",
+    name: "默认主题",
+    background: "#ffffff",
+    text: "#000000",
+    buttonPrimary: "#000000",
+    buttonSecondary: "#4b5563"
   }
-]; 
+];
