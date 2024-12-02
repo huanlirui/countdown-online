@@ -35,6 +35,7 @@ export function CountdownTimer({ initialSeconds, customText = "自定义文案" 
   const lastY = useRef(0);
   const [showFirstVisitAlert, setShowFirstVisitAlert] = useState(false);
   const [currentCustomText, setCurrentCustomText] = useState(customText);
+  const [hasPlayedAlertSound, setHasPlayedAlertSound] = useState(false);
 
   const handleThemeChange = (theme: Theme) => {
     setCurrentTheme(theme);
@@ -70,10 +71,13 @@ export function CountdownTimer({ initialSeconds, customText = "自定义文案" 
     if (isRunning && seconds > 0) {
       interval = setInterval(() => {
         setSeconds(prev => {
+          if (prev <= 5 && !hasPlayedAlertSound) {
+            playAlertSound();
+            setHasPlayedAlertSound(true);
+          }
           if (prev <= 1) {
             setIsRunning(false);
             setShowAlert(true);
-            playAlertSound();
           }
           return prev - 1;
         });
@@ -81,7 +85,13 @@ export function CountdownTimer({ initialSeconds, customText = "自定义文案" 
     }
 
     return () => clearInterval(interval);
-  }, [isRunning, seconds]);
+  }, [isRunning, seconds, hasPlayedAlertSound]);
+
+  useEffect(() => {
+    if (!isRunning) {
+      setHasPlayedAlertSound(false);
+    }
+  }, [isRunning]);
 
   const playAlertSound = () => {
     const audio = new Audio("/timeEnd.mp3");
@@ -252,6 +262,7 @@ export function CountdownTimer({ initialSeconds, customText = "自定义文案" 
             }}
             className="hover:opacity-90 transition-opacity mt-8"
             onClick={() => setIsRunning(true)}
+            disabled={seconds<=0}
           >
             开始
           </Button>
@@ -320,13 +331,17 @@ export function CountdownTimer({ initialSeconds, customText = "自定义文案" 
 
       {showAlert && (
         <div
-          className="fixed top-4 right-4 p-4 rounded-md"
+          className="fixed top-16 right-4 p-4 rounded-md flex items-center gap-2"
           style={{
             backgroundColor: currentTheme.buttonPrimary,
             color: "white"
           }}
         >
-          时间到！
+          <span>时间到！</span>
+          <X 
+            className="h-4 w-4 cursor-pointer hover:opacity-80" 
+            onClick={() => setShowAlert(false)}
+          />
         </div>
       )}
     </div>

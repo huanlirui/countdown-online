@@ -33,7 +33,7 @@ export function CustomTextEditor({ text, fontSize, theme, onTextChange, onFontSi
   const handleDoubleClick = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
     setIsPopoverOpen(prev => !prev);
-    console.log("Double click triggered, popover state:", !isPopoverOpen);
+    console.log("Double click triggered");
   }, []);
 
   return (
