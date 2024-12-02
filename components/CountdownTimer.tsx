@@ -13,12 +13,14 @@ import { useRouter } from "next/navigation";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { cn } from "@/lib/utils";
+import { CustomTextEditor } from "./CustomTextEditor";
 
 interface CountdownTimerProps {
   initialSeconds: number;
+  customText?: string;
 }
 
-export function CountdownTimer({ initialSeconds }: CountdownTimerProps) {
+export function CountdownTimer({ initialSeconds, customText = "自定义文案" }: CountdownTimerProps) {
   const router = useRouter();
   const [seconds, setSeconds] = useState(initialSeconds);
   const [isRunning, setIsRunning] = useState(false);
@@ -27,9 +29,12 @@ export function CountdownTimer({ initialSeconds }: CountdownTimerProps) {
   const [currentTheme, setCurrentTheme] = useState<Theme>(defaultThemes[0]);
   const [showControls, setShowControls] = useState(false);
   const [fontSize, setFontSize] = useState(144);
+  const [customTextSize, setCustomTextSize] = useState(60);
   const isDragging = useRef(false);
+  const isDraggingCustomText = useRef(false);
   const lastY = useRef(0);
   const [showFirstVisitAlert, setShowFirstVisitAlert] = useState(false);
+  const [currentCustomText, setCurrentCustomText] = useState(customText);
 
   const handleThemeChange = (theme: Theme) => {
     setCurrentTheme(theme);
@@ -91,23 +96,36 @@ export function CountdownTimer({ initialSeconds }: CountdownTimerProps) {
     return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${remainingSeconds.toString().padStart(2, "0")}`;
   };
 
-  const handleMouseDown = (e: React.MouseEvent) => {
-    isDragging.current = true;
+  const handleMouseDown = (e: React.MouseEvent, isCustomText: boolean) => {
+    if (isCustomText) {
+      isDraggingCustomText.current = true;
+    } else {
+      isDragging.current = true;
+    }
     lastY.current = e.clientY;
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging.current) return;
+    if (!isDragging.current && !isDraggingCustomText.current) return;
 
     const deltaY = lastY.current - e.clientY;
-    const newSize = Math.max(40, Math.min(400, fontSize + deltaY));
-    setFontSize(newSize);
-    localStorage.setItem("timerFontSize", String(newSize));
+
+    if (isDraggingCustomText.current) {
+      const newSize = Math.max(20, Math.min(200, customTextSize + deltaY));
+      setCustomTextSize(newSize);
+      localStorage.setItem("customTextSize", String(newSize));
+    } else if (isDragging.current) {
+      const newSize = Math.max(40, Math.min(300, fontSize + deltaY));
+      setFontSize(newSize);
+      localStorage.setItem("timerFontSize", String(newSize));
+    }
+
     lastY.current = e.clientY;
   };
 
   const handleMouseUp = () => {
     isDragging.current = false;
+    isDraggingCustomText.current = false;
   };
 
   useEffect(() => {
@@ -124,77 +142,105 @@ export function CountdownTimer({ initialSeconds }: CountdownTimerProps) {
 
   useEffect(() => {
     setTimeout(() => {
-      setShowFirstVisitAlert(true);
+      const hasShownAlert = sessionStorage.getItem("hasShownFirstVisitAlert");
+      if (!hasShownAlert) {
+        setShowFirstVisitAlert(true);
+        sessionStorage.setItem("hasShownFirstVisitAlert", "true");
+      }
     }, 500);
   }, []);
 
+  const onCustomTextChange = (newText: string) => {
+    setCurrentCustomText(newText);
+  };
+
+  const handleCloseAlert = () => {
+    setShowFirstVisitAlert(false);
+    sessionStorage.setItem("hasShownFirstVisitAlert", "true");
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen relative" style={{ backgroundColor: currentTheme.background }}>
-      <div className="text-center relative">
-        {showFirstVisitAlert && (
-          <Alert
-            className={cn(
-              "absolute -top-20 left-1/2 transform -translate-x-1/2 w-auto",
-              "bg-white dark:bg-zinc-950",
-              "text-zinc-950 dark:text-zinc-50",
-              "border border-zinc-200 dark:border-zinc-800",
-              "shadow-md",
-              "flex justify-center items-center"
-            )}
-          >
-            <AlertDescription className="flex items-center justify-center mx-2">
-              <ArrowUpDown className="h-4 w-4" />
-              <span className="mx-2">试试上下拖动时间来调整大小</span>
-              <Button variant="ghost" size="sm" className="ml-2 h-4 hover:bg-transparent" onClick={() => setShowFirstVisitAlert(false)}>
-                <X className="w-4 h-4" />
-              </Button>
-            </AlertDescription>
-          </Alert>
-        )}
+      {showFirstVisitAlert && (
+        <Alert
+          className={cn(
+            "absolute top-2 right-1/2 transform translate-x-1/2",
+            "w-auto",
+            "bg-white dark:bg-zinc-950",
+            "text-zinc-950 dark:text-zinc-50",
+            "border border-zinc-200 dark:border-zinc-800",
+            "shadow-md",
+            "flex justify-center items-center pr-0"
+          )}
+        >
+          <AlertDescription className="flex items-center justify-center mx-2">
+            <ArrowUpDown className="h-4 w-4" />
+            <span className="mx-2">试试上下拖动文字或时间来调整大小</span>
+            <Button variant="ghost" size="sm" className="ml-2 h-4 hover:bg-transparent" onClick={handleCloseAlert}>
+              <X className="h-4" />
+            </Button>
+          </AlertDescription>
+        </Alert>
+      )}
 
+      {customText && (
+        <CustomTextEditor
+          text={currentCustomText}
+          fontSize={customTextSize}
+          theme={currentTheme}
+          onTextChange={onCustomTextChange}
+          onFontSizeChange={setCustomTextSize}
+        />
+      )}
+
+      <div className="text-center relative">
         <HoverCard openDelay={200}>
           <HoverCardTrigger asChild>
             <div
-              className="font-mono mb-8 cursor-ns-resize select-none"
+              className="font-mono cursor-ns-resize select-none"
               style={{
                 color: currentTheme.text,
                 fontSize: `${fontSize}px`
               }}
-              onMouseDown={handleMouseDown}
+              onMouseDown={e => handleMouseDown(e, false)}
               onMouseMove={handleMouseMove}
             >
               {formatTime(seconds)}
             </div>
           </HoverCardTrigger>
-          {!showFirstVisitAlert && (
-            <HoverCardContent
-              side="top"
-              align="center"
-              className={cn(
-                "w-auto",
-                "bg-white dark:bg-zinc-950",
-                "text-zinc-950 dark:text-zinc-50",
-                "rounded-xl border border-zinc-200 dark:border-zinc-800",
-                "data-[state=open]:animate-in",
-                "data-[state=closed]:animate-out",
-                "data-[state=closed]:fade-out-0",
-                "data-[state=open]:fade-in-0",
-                "data-[state=closed]:zoom-out-95",
-                "data-[state=open]:zoom-in-95",
-                "data-[side=top]:slide-in-from-bottom-2",
-                "shadow-md"
-              )}
-              sideOffset={8}
-            >
-              <div className="relative px-4 py-3">
-                <div className="absolute w-1.5 h-1.5 rounded-full left-1.5 top-1/2 -translate-y-1/2 bg-zinc-950 dark:bg-zinc-50" />
-                <div className="flex items-center gap-3 pl-3">
-                  <ArrowUpDown className="h-4 w-4 opacity-80" />
-                  <span className="text-sm font-medium whitespace-nowrap">上下拖动调整字体大小</span>
-                </div>
+          <HoverCardContent
+            side="right"
+            align="center"
+            className={cn(
+              "w-auto",
+              "bg-white dark:bg-zinc-950",
+              "text-zinc-950 dark:text-zinc-50",
+              "border border-zinc-200 dark:border-zinc-800",
+              "data-[state=open]:animate-in",
+              "data-[state=closed]:animate-out",
+              "data-[state=closed]:fade-out-0",
+              "data-[state=open]:fade-in-0",
+              "data-[state=closed]:zoom-out-95",
+              "data-[state=open]:zoom-in-95",
+              "data-[side=right]:slide-in-from-left-2",
+              "shadow-md",
+              "relative",
+              "before:absolute before:w-3 before:h-3 before:rotate-45",
+              "before:left-[-6px]",
+              "before:top-[50%] before:translate-y-[-50%]",
+              "before:border-l before:border-b",
+              "before:border-zinc-200 dark:before:border-zinc-800",
+              "before:bg-white dark:before:bg-zinc-950"
+            )}
+            sideOffset={8}
+          >
+            <div className="relative ">
+              <div className="flex items-center gap-1">
+                <ArrowUpDown className="h-4 w-4 opacity-80" />
+                <span className="text-sm font-medium whitespace-nowrap">上下拖动调整标题大小</span>
               </div>
-            </HoverCardContent>
-          )}
+            </div>
+          </HoverCardContent>
         </HoverCard>
         {!isRunning && (
           <Button
@@ -204,7 +250,7 @@ export function CountdownTimer({ initialSeconds }: CountdownTimerProps) {
               fontSize: "1.5rem",
               padding: "1.5rem 3rem"
             }}
-            className="hover:opacity-90 transition-opacity"
+            className="hover:opacity-90 transition-opacity mt-8"
             onClick={() => setIsRunning(true)}
           >
             开始

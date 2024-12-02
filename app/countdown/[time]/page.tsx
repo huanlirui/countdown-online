@@ -14,8 +14,17 @@ export default async function CountdownPage({ params }: CountdownPageProps) {
     if (time === "custom") {
       return 300; // 默认5分钟
     }
-    return parseInt(time, 10);
+    const seconds = parseInt(time, 10);
+    if (isNaN(seconds) || seconds <= 0) {
+      throw new Error("无效的时间参数");
+    }
+    return seconds;
   };
 
-  return <CountdownTimer initialSeconds={getInitialSeconds(params.time)} />;
+  try {
+    const { time } = await params;
+    return <CountdownTimer initialSeconds={getInitialSeconds(time)} />;
+  } catch (error) {
+    throw error; // 将错误抛出给 Next.js 错误边界处理
+  }
 }
