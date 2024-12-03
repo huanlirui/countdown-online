@@ -2,17 +2,14 @@
  * @Description:
  */
 import { CountdownTimer } from "@/components/CountdownTimer";
+type PageProps = {
+  params: Promise<{ time: string }>;
+};
 
-interface CountdownPageProps {
-  params: {
-    time: string;
-  };
-}
-
-export default async function CountdownPage({ params }: CountdownPageProps) {
-  const getInitialSeconds = (time: string) => {
+export default async function CountdownPage({ params }: PageProps) {
+  const getInitialSeconds = (time: string): number => {
     if (time === "custom") {
-      return 300; // 默认5分钟
+      return 300;
     }
     const seconds = parseInt(time, 10);
     if (isNaN(seconds) || seconds <= 0) {
@@ -23,8 +20,10 @@ export default async function CountdownPage({ params }: CountdownPageProps) {
 
   try {
     const { time } = await params;
-    return <CountdownTimer initialSeconds={getInitialSeconds(time)} />;
+    const initialSeconds = getInitialSeconds(time);
+    return <CountdownTimer initialSeconds={initialSeconds} />;
   } catch (error) {
-    throw error; // 将错误抛出给 Next.js 错误边界处理
+    console.error(error);
+    return <div>时间参数无效，请检查 URL。</div>;
   }
 }
