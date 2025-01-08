@@ -76,7 +76,7 @@ export const metadata: Metadata = {
   category: "工具软件"
 };
 
-export default async function LocaleLayout({ children, params }: { children: React.ReactNode; params: { locale: Locale } }) {
+export default async function LocaleLayout({ children, params }: { children: React.ReactNode; params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
   if (!locales.includes(locale as Locale)) notFound();
 
