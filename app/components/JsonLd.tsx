@@ -4,7 +4,7 @@ export default function JsonLd() {
       type="application/ld+json"
       dangerouslySetInnerHTML={{
         __html: JSON.stringify({
-          "@context": "https://schema.org",
+          "@context": "https://www.countdown-online.com",
           "@type": "WebApplication",
           "name": "倒计时工具",
           "description": "免费在线倒计时工具，支持多个倒计时同时进行，精确到秒",

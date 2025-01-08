@@ -1,0 +1,94 @@
+{
+  "Index": {
+    "title": "Countdown Timer - Online Timer Accurate to Seconds",
+    "description": "Free online countdown timer, supporting multiple countdowns simultaneously, accurate to seconds, perfect for exams, meetings, events, and more.",
+    "startCountdown": "Start Countdown",
+    "customCountdown": "Custom Countdown",
+    "heroTitle": "Simple and Easy-to-use Online Countdown Timer",
+    "heroSubtitle": "Precise timing for your every important moment",
+    "oneHourTitle": "1 Hour Countdown",
+    "oneHourDesc": "Perfect for exams, presentations, etc.",
+    "thirtyMinTitle": "30 Minutes Countdown",
+    "thirtyMinDesc": "Ideal for short meetings, breaks, etc.",
+    "customTitle": "Custom Countdown",
+    "customDesc": "Set your own time freely"
+  },
+  "Features": {
+    "fullscreen": "Fullscreen Display",
+    "fullscreenDesc": "Clear large font, visible from a distance",
+    "themes": "Multiple Themes",
+    "themesDesc": "Support light/dark modes, various color schemes",
+    "sound": "Sound Alert",
+    "soundDesc": "Automatic reminder when time's up"
+  },
+  "Countdown": {
+    "timeLeft": "Time Left",
+    "hours": "Hours",
+    "minutes": "Minutes",
+    "seconds": "Seconds",
+    "timeUp": "Time's Up!",
+    "start": "Start",
+    "pause": "Pause",
+    "reset": "Reset",
+    "back": "Back",
+    "fullscreen": "Fullscreen",
+    "exitFullscreen": "Exit Fullscreen",
+    "dragToResize": "Drag up/down to resize",
+    "firstVisitTip": "Try dragging text or time up and down to adjust size",
+    "playAlertError": "Failed to play alert sound",
+    "invalidTimeParam": "Invalid time parameter",
+    "invalidTimeError": "Invalid time parameter, please check the URL."
+  },
+  "CustomText": {
+    "editTitle": "Edit Text",
+    "presetTitle": "Preset Text",
+    "historyTitle": "History",
+    "newTextPlaceholder": "Enter new title...",
+    "addButton": "Add",
+    "dragToResizeText": "Drag up/down to resize text",
+    "doubleClickToEdit": "Double click to edit text",
+    "defaultCustomText": "Custom text"
+  },
+  "CustomTime": {
+    "presetTimes": "Preset Times",
+    "quickAdjust": "Quick Adjust",
+    "add5min": "Add 5 min",
+    "add15min": "Add 15 min",
+    "add30min": "Add 30 min",
+    "hoursLabel": "Hours",
+    "minutesLabel": "Minutes",
+    "secondsLabel": "Seconds",
+    "customTitle": "Custom Countdown",
+    "reset": "Reset",
+    "startCountdown": "Start Countdown"
+  },
+  "Theme": {
+    "settings": "Theme Settings",
+    "selectTheme": "Select Theme Colors",
+    "defaultThemes": "Default Themes",
+    "colorSchemes": "Color Schemes",
+    "defaultTheme": "Default Theme",
+    "deepBlue": "Deep Blue",
+    "forestGreen": "Forest Green",
+    "elegantPurple": "Elegant Purple",
+    "warmAmber": "Warm Amber",
+    "romanticPink": "Romantic Pink",
+    "theme-default": "Default Theme",
+    "theme-dark": "Dark Theme"
+  },
+  "Navigation": {
+    "home": "Home",
+    "about": "About",
+    "switchLang": "中文",
+    "title": "Countdown Timer"
+  },
+  "Footer": {
+    "copyright": "© {year} Countdown Timer - Making time management easier"
+  },
+  "Error": {
+    "title": "Error Occurred",
+    "description": "Sorry, something went wrong. Please check if the time parameter is valid or try reloading the page.",
+    "backHome": "Back to Home",
+    "tryAgain": "Try Again"
+  }
+}

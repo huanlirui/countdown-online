@@ -14,13 +14,17 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/h
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { cn } from "@/lib/utils";
 import { CustomTextEditor } from "./CustomTextEditor";
+import { useTranslations } from "next-intl";
 
 interface CountdownTimerProps {
   initialSeconds: number;
   customText?: string;
 }
 
-export function CountdownTimer({ initialSeconds, customText = "自定义文案" }: CountdownTimerProps) {
+export function CountdownTimer({ initialSeconds, customText = "" }: CountdownTimerProps) {
+  const t = useTranslations("Countdown");
+  const tCustomText = useTranslations("CustomText");
+  const defaultText = customText ? customText : tCustomText("defaultCustomText");
   const router = useRouter();
   const [seconds, setSeconds] = useState(initialSeconds);
   const [isRunning, setIsRunning] = useState(false);
@@ -34,7 +38,7 @@ export function CountdownTimer({ initialSeconds, customText = "自定义文案" 
   const isDraggingCustomText = useRef(false);
   const lastY = useRef(0);
   const [showFirstVisitAlert, setShowFirstVisitAlert] = useState(false);
-  const [currentCustomText, setCurrentCustomText] = useState(customText);
+  const [currentCustomText, setCurrentCustomText] = useState(defaultText);
   const [hasPlayedAlertSound, setHasPlayedAlertSound] = useState(false);
 
   const handleThemeChange = (theme: Theme) => {
@@ -95,7 +99,7 @@ export function CountdownTimer({ initialSeconds, customText = "自定义文案" 
 
   const playAlertSound = () => {
     const audio = new Audio("/timeEnd.mp3");
-    audio.play().catch(e => console.log("播放提示音失败:", e));
+    audio.play().catch(e => console.log(t("playAlertError"), e));
   };
 
   const formatTime = (totalSeconds: number) => {
@@ -185,7 +189,7 @@ export function CountdownTimer({ initialSeconds, customText = "自定义文案" 
         >
           <AlertDescription className="flex items-center justify-center mx-2">
             <ArrowUpDown className="h-4 w-4" />
-            <span className="mx-2">试试上下拖动文字或时间来调整大小</span>
+            <span className="mx-2">{t("firstVisitTip")}</span>
             <Button variant="ghost" size="sm" className="ml-2 h-4 hover:bg-transparent" onClick={handleCloseAlert}>
               <X className="h-4" />
             </Button>
@@ -193,7 +197,7 @@ export function CountdownTimer({ initialSeconds, customText = "自定义文案" 
         </Alert>
       )}
 
-      {customText && (
+      {currentCustomText && (
         <CustomTextEditor
           text={currentCustomText}
           fontSize={customTextSize}
@@ -247,7 +251,7 @@ export function CountdownTimer({ initialSeconds, customText = "自定义文案" 
             <div className="relative ">
               <div className="flex items-center gap-1">
                 <ArrowUpDown className="h-4 w-4 opacity-80" />
-                <span className="text-sm font-medium whitespace-nowrap">上下拖动调整标题大小</span>
+                <span className="text-sm font-medium whitespace-nowrap">{t("dragToResize")}</span>
               </div>
             </div>
           </HoverCardContent>
@@ -258,13 +262,14 @@ export function CountdownTimer({ initialSeconds, customText = "自定义文案" 
             style={{
               backgroundColor: currentTheme.buttonPrimary,
               fontSize: "1.5rem",
-              padding: "1.5rem 3rem"
+              padding: "1.5rem 3rem",
+              color: currentTheme.background
             }}
             className="hover:opacity-90 transition-opacity mt-8"
             onClick={() => setIsRunning(true)}
-            disabled={seconds<=0}
+            disabled={seconds <= 0}
           >
-            开始
+            {t("start")}
           </Button>
         )}
       </div>
@@ -284,7 +289,7 @@ export function CountdownTimer({ initialSeconds, customText = "自定义文案" 
               className="hover:opacity-90 transition-opacity"
               onClick={() => setIsRunning(false)}
             >
-              暂停
+              {t("pause")}
             </Button>
           )}
           <Button
@@ -299,7 +304,7 @@ export function CountdownTimer({ initialSeconds, customText = "自定义文案" 
               setShowAlert(false);
             }}
           >
-            重置
+            {t("reset")}
           </Button>
           <Button
             size="sm"
@@ -309,7 +314,7 @@ export function CountdownTimer({ initialSeconds, customText = "自定义文案" 
             className="hover:opacity-90 transition-opacity"
             onClick={() => router.push("/")}
           >
-            返回
+            {t("back")}
           </Button>
           <Button
             size="sm"
@@ -319,7 +324,7 @@ export function CountdownTimer({ initialSeconds, customText = "自定义文案" 
             className="hover:opacity-90 transition-opacity"
             onClick={toggleFullscreen}
           >
-            {isFullscreen ? "退出全屏" : "全屏"}
+            {isFullscreen ? t("exitFullscreen") : t("fullscreen")}
           </Button>
           <ThemeSelector currentTheme={currentTheme} onThemeChange={handleThemeChange} />
         </div>
@@ -337,11 +342,8 @@ export function CountdownTimer({ initialSeconds, customText = "自定义文案" 
             color: "white"
           }}
         >
-          <span>时间到！</span>
-          <X 
-            className="h-4 w-4 cursor-pointer hover:opacity-80" 
-            onClick={() => setShowAlert(false)}
-          />
+          <span>{t("timeUp")}</span>
+          <X className="h-4 w-4 cursor-pointer hover:opacity-80" onClick={() => setShowAlert(false)} />
         </div>
       )}
     </div>

@@ -12,11 +12,19 @@ export interface Theme {
 
 export const defaultThemes: Theme[] = [
   {
-    id: "default",
-    name: "默认主题",
+    id: "theme-default",
+    name: "theme-default",
     background: "#ffffff",
-    text: "#000000",
-    buttonPrimary: "#000000",
-    buttonSecondary: "#4b5563"
+    text: "#09090b",
+    buttonPrimary: "#09090b",
+    buttonSecondary: "#a1a1aa"
+  },
+  {
+    id: "theme-dark",
+    name: "theme-dark",
+    background: "#09090b",
+    text: "#ffffff",
+    buttonPrimary: "#ffffff",
+    buttonSecondary: "#52525b"  // 调整为更亮的深灰色
   }
 ];

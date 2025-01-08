@@ -1,19 +1,20 @@
-/*
- * @Description:
- */
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export default function CustomCountdown() {
   const router = useRouter();
+  const pathname = usePathname();
+  const locale = pathname.split('/')[1];
+  const t = useTranslations("CustomTime");
   const [hours, setHours] = useState("");
-  const [minutes, setMinutes] = useState("");
+  const [minutes, setMinutes] = useState("15");
   const [seconds, setSeconds] = useState("");
 
   const handlePreset = (h: number, m: number, s: number) => {
@@ -36,7 +37,7 @@ export default function CustomCountdown() {
     const totalSeconds = parseInt(hours || "0") * 3600 + parseInt(minutes || "0") * 60 + parseInt(seconds || "0");
 
     if (totalSeconds > 0) {
-      router.push(`/countdown/${totalSeconds}`);
+      router.push(`/${locale}/countdown/${totalSeconds}`);
     }
   };
 
@@ -63,7 +64,7 @@ export default function CustomCountdown() {
             >
               <ArrowLeft className="h-5 w-5" />
             </Button>
-            <h1 className="text-3xl font-bold">自定义倒计时</h1>
+            <h1 className="text-3xl font-bold">{t("customTitle")}</h1>
           </div>
           <Button 
             variant="ghost" 
@@ -71,67 +72,67 @@ export default function CustomCountdown() {
             size="sm"
             className="text-muted-foreground hover:text-primary"
           >
-            重置
+            {t("reset")}
           </Button>
         </div>
         <div className="space-y-8">
           <div className="space-y-4">
-            <h2 className="text-lg font-medium">预设时间</h2>
+            <h2 className="text-lg font-medium">{t("presetTimes")}</h2>
             <div className="grid grid-cols-3 gap-4">
               <Button variant="outline" onClick={() => handlePreset(0, 1, 0)}>
-                1分钟
+                1{t("minutesLabel")}
               </Button>
               <Button variant="outline" onClick={() => handlePreset(0, 3, 0)}>
-                3分钟
+                3{t("minutesLabel")}
               </Button>
               <Button variant="outline" onClick={() => handlePreset(0, 5, 0)}>
-                5分钟
+                5{t("minutesLabel")}
               </Button>
             </div>
 
             <div className="grid grid-cols-3 gap-4">
               <Button variant="outline" onClick={() => handlePreset(0, 10, 0)}>
-                10分钟
+                10{t("minutesLabel")}
               </Button>
               <Button variant="outline" onClick={() => handlePreset(0, 15, 0)}>
-                15分钟
+                15{t("minutesLabel")}
               </Button>
               <Button variant="outline" onClick={() => handlePreset(0, 30, 0)}>
-                30分钟
+                30{t("minutesLabel")}
               </Button>
             </div>
 
             <div className="grid grid-cols-3 gap-4">
               <Button variant="outline" onClick={() => handlePreset(1, 0, 0)}>
-                1小时
+                1{t("hoursLabel")}
               </Button>
               <Button variant="outline" onClick={() => handlePreset(2, 0, 0)}>
-                2小时
+                2{t("hoursLabel")}
               </Button>
               <Button variant="outline" onClick={() => handlePreset(4, 0, 0)}>
-                4小时
+                4{t("hoursLabel")}
               </Button>
             </div>
           </div>
 
           <div className="space-y-4">
-            <h2 className="text-lg font-medium">快捷调整</h2>
+            <h2 className="text-lg font-medium">{t("quickAdjust")}</h2>
             <div className="grid grid-cols-3 gap-4">
               <Button variant="secondary" onClick={() => handleAddTime(0, 5, 0)}>
-                增加5分钟
+                {t("add5min")}
               </Button>
               <Button variant="secondary" onClick={() => handleAddTime(0, 15, 0)}>
-                增加15分钟
+                {t("add15min")}
               </Button>
               <Button variant="secondary" onClick={() => handleAddTime(0, 30, 0)}>
-                增加30分钟
+                {t("add30min")}
               </Button>
             </div>
           </div>
 
           <div className="grid grid-cols-3 gap-6">
             <div>
-              <label className="block text-sm font-medium mb-2">小时</label>
+              <label className="block text-sm font-medium mb-2">{t("hoursLabel")}</label>
               <Input
                 type="number"
                 min="0"
@@ -142,7 +143,7 @@ export default function CustomCountdown() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-2">分钟</label>
+              <label className="block text-sm font-medium mb-2">{t("minutesLabel")}</label>
               <Input
                 type="number"
                 min="0"
@@ -154,7 +155,7 @@ export default function CustomCountdown() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-2">秒</label>
+              <label className="block text-sm font-medium mb-2">{t("secondsLabel")}</label>
               <Input
                 type="number"
                 min="0"
@@ -168,10 +169,10 @@ export default function CustomCountdown() {
           </div>
 
           <Button className="w-full h-12 text-lg mt-4" size="lg" onClick={handleStart}>
-            开始倒计时
+            {t("startCountdown")}
           </Button>
         </div>
       </Card>
     </div>
   );
-}
+} 

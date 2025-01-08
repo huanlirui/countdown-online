@@ -1,17 +1,22 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import "./globals.css";
+import "../globals.css";
 import Script from "next/script";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
-import JsonLd from "./components/JsonLd";
+import JsonLd from "../components/JsonLd";
+import { NextIntlClientProvider } from "next-intl";
+import { notFound } from "next/navigation";
+import { locales, type Locale } from "../../i18n";
+
 const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
+  src: "../fonts/GeistVF.woff",
   variable: "--font-geist-sans",
   weight: "100 900"
 });
+
 const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
+  src: "../fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
   weight: "100 900"
 });
@@ -68,36 +73,44 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://www.countdown-online.com"
   },
-
   category: "工具软件"
 };
-export default function RootLayout({
-  children
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+
+export default async function LocaleLayout({ children, params }: { children: React.ReactNode; params: { locale: Locale } }) {
+  const { locale } = await params;
+  if (!locales.includes(locale as Locale)) notFound();
+
+  let messages;
+  try {
+    messages = (await import(`../../messages/${locale}.json`)).default;
+  } catch {
+    notFound();
+  }
+
   return (
-    <html lang="zh">
+    <html lang={locale}>
       <head>
         <JsonLd />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        {children}
-        <SpeedInsights />
-        <Analytics />
-        <Script strategy="afterInteractive" src="https://www.googletagmanager.com/gtag/js?id=G-WQJLE8SJ6G" />
-        <Script
-          id="google-analytics"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-WQJLE8SJ6G');
-            `
-          }}
-        />
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          {children}
+          <SpeedInsights />
+          <Analytics />
+          <Script strategy="afterInteractive" src="https://www.googletagmanager.com/gtag/js?id=G-WQJLE8SJ6G" />
+          <Script
+            id="google-analytics"
+            strategy="afterInteractive"
+            dangerouslySetInnerHTML={{
+              __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', 'G-WQJLE8SJ6G');
+              `
+            }}
+          />
+        </NextIntlClientProvider>
       </body>
     </html>
   );

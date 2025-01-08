@@ -6,6 +6,7 @@ import { Theme } from "@/config/themes";
 import { cn } from "@/lib/utils";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import { ArrowUpDown, Edit2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface CustomTextDisplayProps {
   text: string;
@@ -18,6 +19,7 @@ interface CustomTextDisplayProps {
 export function CustomTextDisplay({ text, fontSize, theme, onFontSizeChange, onDoubleClick }: CustomTextDisplayProps) {
   const isDragging = useRef(false);
   const lastY = useRef(0);
+  const t = useTranslations("CustomText");
 
   const handleMouseDown = (e: React.MouseEvent) => {
     isDragging.current = true;
@@ -95,11 +97,11 @@ export function CustomTextDisplay({ text, fontSize, theme, onFontSizeChange, onD
           <div className="flex flex-col gap-1.5">
             <div className="flex items-center gap-2">
               <ArrowUpDown className="h-3 w-3 opacity-80" />
-              <span className="text-xs font-medium">上下拖动调整文字大小</span>
+              <span className="text-xs font-medium">{t("dragToResizeText")}</span>
             </div>
             <div className="flex items-center gap-2">
               <Edit2 className="h-3 w-3 opacity-80" />
-              <span className="text-xs font-medium">双击编辑文字内容</span>
+              <span className="text-xs font-medium">{t("doubleClickToEdit")}</span>
             </div>
           </div>
         </div>

@@ -1,0 +1,94 @@
+{
+  "Index": {
+    "title": "倒计时工具 - 精确到秒的在线倒计时器",
+    "description": "免费在线倒计时工具，支持多个倒计时同时进行，精确到秒，适用于考试、会议、活动等场景的时间管理。",
+    "startCountdown": "开始倒计时",
+    "customCountdown": "自定义倒计时",
+    "heroTitle": "简单易用的在线倒计时工具",
+    "heroSubtitle": "为您的每个重要时刻提供精确计时",
+    "oneHourTitle": "1小时倒计时",
+    "oneHourDesc": "适用于考试、演讲等场景",
+    "thirtyMinTitle": "30分钟倒计时",
+    "thirtyMinDesc": "适用于短会、休息等场景",
+    "customTitle": "自定义倒计时",
+    "customDesc": "自由设置您需要的时间"
+  },
+  "Features": {
+    "fullscreen": "全屏显示",
+    "fullscreenDesc": "清晰大字体，远距离可见",
+    "themes": "多种主题",
+    "themesDesc": "支持明暗模式，多种颜色方案",
+    "sound": "声音提醒",
+    "soundDesc": "时间到期自动提醒，防止遗漏"
+  },
+  "Countdown": {
+    "timeLeft": "剩余时间",
+    "hours": "小时",
+    "minutes": "分钟",
+    "seconds": "秒",
+    "timeUp": "时间到！",
+    "start": "开始",
+    "pause": "暂停",
+    "reset": "重置",
+    "back": "返回",
+    "fullscreen": "全屏",
+    "exitFullscreen": "退出全屏",
+    "dragToResize": "上下拖动可调整大小",
+    "firstVisitTip": "试试上下拖动文字或时间来调整大小",
+    "playAlertError": "播放提示音失败",
+    "invalidTimeParam": "无效的时间参数",
+    "invalidTimeError": "时间参数无效，请检查 URL。"
+  },
+  "CustomText": {
+    "editTitle": "编辑文案",
+    "presetTitle": "预设文案",
+    "historyTitle": "历史记录",
+    "newTextPlaceholder": "输入新标题...",
+    "addButton": "添加",
+    "dragToResizeText": "上下拖动调整文字大小",
+    "doubleClickToEdit": "双击编辑文字内容",
+    "defaultCustomText": "自定义文案"
+  },
+  "CustomTime": {
+    "presetTimes": "预设时间",
+    "quickAdjust": "快捷调整",
+    "add5min": "增加5分钟",
+    "add15min": "增加15分钟",
+    "add30min": "增加30分钟",
+    "hoursLabel": "小时",
+    "minutesLabel": "分钟",
+    "secondsLabel": "秒",
+    "customTitle": "自定义倒计时",
+    "reset": "重置",
+    "startCountdown": "开始倒计时"
+  },
+  "Theme": {
+    "settings": "主题设置",
+    "selectTheme": "选择主题色彩",
+    "defaultThemes": "预设主题",
+    "colorSchemes": "配色方案",
+    "defaultTheme": "默认主题",
+    "deepBlue": "深邃蓝",
+    "forestGreen": "森林绿",
+    "elegantPurple": "典雅紫",
+    "warmAmber": "温暖橙",
+    "romanticPink": "浪漫粉",
+    "theme-default": "默认主题",
+    "theme-dark": "暗色主题"
+  },
+  "Navigation": {
+    "home": "首页",
+    "about": "关于",
+    "switchLang": "English",
+    "title": "倒计时工具"
+  },
+  "Footer": {
+    "copyright": "© {year} 倒计时工具 - 让时间管理更简单"
+  },
+  "Error": {
+    "title": "出错了",
+    "description": "抱歉，发生了一些错误。请检查时间参数是否有效，或者尝试重新加载页面。",
+    "backHome": "返回首页",
+    "tryAgain": "重试"
+  }
+}

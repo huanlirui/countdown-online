@@ -6,6 +6,7 @@ import { Theme } from "@/config/themes";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 interface NewTextInputProps {
   theme: Theme;
@@ -14,6 +15,7 @@ interface NewTextInputProps {
 
 export function NewTextInput({ theme, onSubmit }: NewTextInputProps) {
   const [newText, setNewText] = useState("");
+  const t = useTranslations("CustomText");
 
   const handleSubmit = useCallback(() => {
     const trimmedText = newText.trim();
@@ -40,7 +42,7 @@ export function NewTextInput({ theme, onSubmit }: NewTextInputProps) {
           value={newText}
           onChange={e => setNewText(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="输入新标题..."
+          placeholder={t("newTextPlaceholder")}
           className={cn("flex-1", "focus-visible:ring-1", "focus-visible:ring-offset-0")}
         />
         <Button
@@ -50,7 +52,7 @@ export function NewTextInput({ theme, onSubmit }: NewTextInputProps) {
             backgroundColor: theme.buttonPrimary
           }}
         >
-          添加
+          {t("addButton")}
         </Button>
       </div>
     </div>
