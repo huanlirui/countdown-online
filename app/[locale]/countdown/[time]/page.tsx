@@ -1,9 +1,10 @@
 import { CountdownTimer } from "@/components/CountdownTimer";
 
 interface Props {
-  params: {
+  params: Promise<{
     time: string;
-  };
+    locale: string;
+  }>;
 }
 
 export default async function CountdownPage({ params }: Props) {
