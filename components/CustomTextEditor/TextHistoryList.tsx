@@ -6,13 +6,14 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 import { useTextHistory } from "../../hooks/useTextHistory";
 import { cn } from "@/lib/utils";
 import { Clock } from "lucide-react";
-
+import { useTranslations } from "next-intl";
 interface TextHistoryListProps {
   theme: Theme;
   onSelect: (text: string) => void;
 }
 
 export function TextHistoryList({ onSelect }: TextHistoryListProps) {
+  const t = useTranslations("CustomText.history");
   const { history } = useTextHistory();
   const safeHistory = Array.isArray(history) ? history.slice(-20) : [];
 
@@ -23,12 +24,12 @@ export function TextHistoryList({ onSelect }: TextHistoryListProps) {
         backgroundColor: "transparent"
       }}
     >
-      <CommandInput placeholder="搜索历史记录..." className={cn("border-none", "focus:ring-0", "placeholder:text-gray-400")} />
+      <CommandInput placeholder={t("searchPlaceholder")} className={cn("border-none", "focus:ring-0", "placeholder:text-gray-400")} />
       <CommandList className="max-h-[300px]">
         {safeHistory.length === 0 ? (
-          <CommandEmpty>暂无历史记录</CommandEmpty>
+          <CommandEmpty>{t("noHistory")}</CommandEmpty>
         ) : (
-          <CommandGroup heading="最近使用">
+          <CommandGroup heading={t("recentlyUsed")}>
             {safeHistory.map((text, index) => (
               <CommandItem
                 key={index}

@@ -2,22 +2,8 @@
  * @Description:
  */
 import { Theme } from "@/config/themes";
+import { useTranslations } from "next-intl";
 
-const DEFAULT_COUNTDOWN_TEXTS = [
-  "距离开始还有",
-  "距离结束还有",
-  "活动开始倒计时",
-  "活动结束倒计时",
-  "限时特惠倒计时",
-  "秒杀开始倒计时",
-  "抢购结束倒计时",
-  "报名截止倒计时",
-  // 其他场景
-  "直播开始倒计时",
-  "考试倒计时",
-  "发布倒计时",
-  "预售开始倒计时"
-];
 
 interface PresetTextListProps {
   theme: Theme;
@@ -25,9 +11,24 @@ interface PresetTextListProps {
 }
 
 export function PresetTextList({ onSelect }: PresetTextListProps) {
+  const t = useTranslations("CustomText.presetTexts");
+  const COUNTDOWN_TEXTS = [
+    t("timeToStart"),
+    t("timeToEnd"),
+    t("activityStart"),
+    t("activityEnd"),
+    t("limitedOffer"),
+    t("flashSaleStart"),
+    t("purchaseEnd"),
+    t("registrationEnd"),
+    t("liveStart"),
+    t("examCountdown"),
+    t("releaseCountdown"),
+    t("presaleStart")
+  ];
   return (
     <div className="grid grid-cols-1 gap-2">
-      {DEFAULT_COUNTDOWN_TEXTS.map(text => (
+      {COUNTDOWN_TEXTS.map(text => (
         <button
           key={text}
           className="p-2 text-sm text-left rounded-md hover:bg-accent/50 transition-colors duration-200 border border-transparent hover:border-border"

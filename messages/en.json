@@ -47,7 +47,26 @@
     "addButton": "Add",
     "dragToResizeText": "Drag up/down to resize text",
     "doubleClickToEdit": "Double click to edit text",
-    "defaultCustomText": "Custom text"
+    "defaultCustomText": "Custom text",
+    "presetTexts": {
+      "timeToStart": "Time until start",
+      "timeToEnd": "Time until end",
+      "activityStart": "Activity starts in",
+      "activityEnd": "Activity ends in",
+      "limitedOffer": "Limited offer ends in",
+      "flashSaleStart": "Flash sale starts in",
+      "purchaseEnd": "Purchase ends in",
+      "registrationEnd": "Registration ends in",
+      "liveStart": "Live stream starts in",
+      "examCountdown": "Exam countdown",
+      "releaseCountdown": "Release countdown",
+      "presaleStart": "Presale starts in"
+    },
+    "history": {
+      "searchPlaceholder": "Search history...",
+      "noHistory": "No history",
+      "recentlyUsed": "Recently Used"
+    }
   },
   "CustomTime": {
     "presetTimes": "Preset Times",

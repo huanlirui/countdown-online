@@ -47,7 +47,26 @@
     "addButton": "添加",
     "dragToResizeText": "上下拖动调整文字大小",
     "doubleClickToEdit": "双击编辑文字内容",
-    "defaultCustomText": "自定义文案"
+    "defaultCustomText": "自定义文案",
+    "presetTexts": {
+      "timeToStart": "距离开始还有",
+      "timeToEnd": "距离结束还有",
+      "activityStart": "活动开始倒计时",
+      "activityEnd": "活动结束倒计时",
+      "limitedOffer": "限时特惠倒计时",
+      "flashSaleStart": "秒杀开始倒计时",
+      "purchaseEnd": "抢购结束倒计时",
+      "registrationEnd": "报名截止倒计时",
+      "liveStart": "直播开始倒计时",
+      "examCountdown": "考试倒计时",
+      "releaseCountdown": "发布倒计时",
+      "presaleStart": "预售开始倒计时"
+    },
+    "history": {
+      "searchPlaceholder": "搜索历史记录...",
+      "noHistory": "暂无历史记录",
+      "recentlyUsed": "最近使用"
+    }
   },
   "CustomTime": {
     "presetTimes": "预设时间",
