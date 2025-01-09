@@ -1,4 +1,17 @@
 {
+  "Metadata": {
+    "defaultTitle": "Online Timer Tool - Precise Countdown Timer",
+    "titleTemplate": "%s | Online Timer Tool",
+    "description": "Free online countdown timer with multiple simultaneous timers, precise to the second. Perfect for exams, meetings, events, and time management. Simple to use, no installation required.",
+    "keywords": "countdown timer, online timer, time management, timer tool, exam timer, meeting timer, event countdown",
+    "ogTitle": "Online Timer Tool - Precise Countdown Timer",
+    "ogDescription": "Free online countdown timer with multiple simultaneous timers, precise to the second. Perfect for exams, meetings, and events.",
+    "siteName": "Online Timer Tool",
+    "previewImageAlt": "Online Timer Tool Preview",
+    "twitterTitle": "Online Timer Tool - Precise Countdown Timer",
+    "twitterDescription": "Free online countdown timer with multiple simultaneous timers, precise to the second.",
+    "category": "Productivity Tools"
+  },
   "Index": {
     "title": "Countdown Timer - Online Timer Accurate to Seconds",
     "description": "Free online countdown timer, supporting multiple countdowns simultaneously, accurate to seconds, perfect for exams, meetings, events, and more.",

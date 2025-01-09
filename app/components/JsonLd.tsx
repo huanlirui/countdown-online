@@ -1,27 +1,31 @@
-export default function JsonLd() {
+'use client'
+
+interface StructuredData {
+  '@context': string;
+  '@type': string;
+  name: string;
+  description: string;
+  url: string;
+  applicationCategory?: string;
+  operatingSystem?: string;
+  browserRequirements?: string;
+  offers?: {
+    '@type': string;
+    price: string;
+    priceCurrency: string;
+  };
+  featureList?: string[];
+}
+
+interface JsonLdProps {
+  data: StructuredData;
+}
+
+export default function JsonLd({ data }: JsonLdProps) {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify({
-          "@context": "https://www.countdown-online.com",
-          "@type": "WebApplication",
-          "name": "倒计时工具",
-          "description": "免费在线倒计时工具，支持多个倒计时同时进行，精确到秒",
-          "url": "https://www.countdown-online.com",
-          "applicationCategory": "工具软件",
-          "operatingSystem": "All",
-          "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "CNY"
-          },
-          "author": {
-            "@type": "Person",
-            "name": "ynxh666"
-          }
-        })
-      }}
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
     />
-  );
+  )
 } 
