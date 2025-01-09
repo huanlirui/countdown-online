@@ -3,7 +3,7 @@
  */
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Button } from "./ui/button";
 import { useFullscreen } from "@/hooks/useFullscreen";
 import { ThemeSelector } from "./ThemeSelector";
@@ -40,6 +40,7 @@ export function CountdownTimer({ initialSeconds, customText = "" }: CountdownTim
   const [showFirstVisitAlert, setShowFirstVisitAlert] = useState(false);
   const [currentCustomText, setCurrentCustomText] = useState(defaultText);
   const [hasPlayedAlertSound, setHasPlayedAlertSound] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const handleThemeChange = (theme: Theme) => {
     setCurrentTheme(theme);
@@ -70,12 +71,27 @@ export function CountdownTimer({ initialSeconds, customText = "" }: CountdownTim
   }, []);
 
   useEffect(() => {
+    audioRef.current = new Audio("/timeEnd.mp3");
+  }, []);
+
+  const playAlertSound = useCallback(async () => {
+    try {
+      if (audioRef.current) {
+        audioRef.current.currentTime = 0;
+        await audioRef.current.play();
+      }
+    } catch {
+      setShowAlert(true);
+    }
+  }, []);
+
+  useEffect(() => {
     let interval: NodeJS.Timeout;
 
     if (isRunning && seconds > 0) {
       interval = setInterval(() => {
         setSeconds(prev => {
-          if (prev <= 5 && !hasPlayedAlertSound) {
+          if (prev <= 6 && !hasPlayedAlertSound) {
             playAlertSound();
             setHasPlayedAlertSound(true);
           }
@@ -89,18 +105,13 @@ export function CountdownTimer({ initialSeconds, customText = "" }: CountdownTim
     }
 
     return () => clearInterval(interval);
-  }, [isRunning, seconds, hasPlayedAlertSound]);
+  }, [isRunning, seconds, hasPlayedAlertSound, playAlertSound]);
 
   useEffect(() => {
     if (!isRunning) {
       setHasPlayedAlertSound(false);
     }
   }, [isRunning]);
-
-  const playAlertSound = () => {
-    const audio = new Audio("/timeEnd.mp3");
-    audio.play().catch(e => console.log(t("playAlertError"), e));
-  };
 
   const formatTime = (totalSeconds: number) => {
     const hours = Math.floor(totalSeconds / 3600);
