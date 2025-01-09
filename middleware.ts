@@ -6,8 +6,10 @@ export default createMiddleware({
   locales: locales,
   // 默认语言
   defaultLocale: defaultLocale,
-  // 本地化检测
-  localeDetection: true
+  // 关闭自动重定向
+  localePrefix: "as-needed",
+  // 可选：如果您想保持默认语言的URL不带前缀
+  localeDetection: false
 });
 
 export const config = {
@@ -15,5 +17,5 @@ export const config = {
   // - api (API 路由)
   // - _next (Next.js 内部路由)
   // - 以点开头的文件 (例如 favicon.ico)
-  matcher: ['/', '/(zh|en)/:path*']
+  matcher: ['/', '/(zh|en)/:path*', '/countdown/:path*']
 };
