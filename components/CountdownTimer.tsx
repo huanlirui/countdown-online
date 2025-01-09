@@ -284,7 +284,8 @@ export function CountdownTimer({ initialSeconds, customText = "" }: CountdownTim
             <Button
               size="sm"
               style={{
-                backgroundColor: currentTheme.buttonPrimary
+                backgroundColor: currentTheme.buttonPrimary,
+                color: currentTheme.background
               }}
               className="hover:opacity-90 transition-opacity"
               onClick={() => setIsRunning(false)}
