@@ -1,5 +1,5 @@
 import { CountdownTimer } from "@/components/CountdownTimer";
-import { Metadata } from "next";
+import { Metadata, Viewport } from "next";
 import JsonLd from "@/app/components/JsonLd";
 
 interface Props {
@@ -8,6 +8,11 @@ interface Props {
     locale: string;
   }>;
 }
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1
+};
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { time } = await params;
@@ -28,26 +33,25 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: `${timeDescription} Countdown | Online Timer Tool`,
     description: `Precise ${timeDescription} online countdown timer for exams, meetings, events, and more. Features fullscreen mode, custom themes, and sound alerts.`,
     keywords: `countdown timer, online timer, ${timeDescription} timer, exam timer, meeting countdown, event timer, fullscreen timer, custom countdown`,
-    robots: 'index, follow',
-    viewport: 'width=device-width, initial-scale=1',
+    robots: "index, follow",
     openGraph: {
       title: `${timeDescription} Countdown | Online Timer Tool`,
       description: `Precise ${timeDescription} online countdown timer for exams, meetings, events, and more.`,
-      type: 'website',
-      locale: 'en_US',
-      siteName: 'Online Timer Tool',
-      url: `https://countdown-online.com/countdown/${time}`,
+      type: "website",
+      locale: "en_US",
+      siteName: "Online Timer Tool",
+      url: `https://countdown-online.com/countdown/${time}`
     },
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title: `${timeDescription} Countdown | Online Timer Tool`,
-      description: `Precise ${timeDescription} online countdown timer for exams, meetings, events, and more.`,
+      description: `Precise ${timeDescription} online countdown timer for exams, meetings, events, and more.`
     },
     alternates: {
-      canonical: `https://countdown-online.com/countdown/${time}`,
+      canonical: `https://countdown-online.com/countdown/${time}`
     },
-    authors: [{ name: 'Online Timer Tool' }],
-    category: 'Productivity Tools',
+    authors: [{ name: "Online Timer Tool" }],
+    category: "Productivity Tools"
   };
 }
 
@@ -62,25 +66,18 @@ export default async function CountdownPage({ params }: Props) {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "Online Timer Tool",
-    "description": "Professional online countdown timer for precise timing needs",
-    "url": "https://countdown-online.com",
-    "applicationCategory": "Utility",
-    "operatingSystem": "All",
-    "browserRequirements": "Requires JavaScript. Requires HTML5.",
-    "offers": {
+    name: "Online Timer Tool",
+    description: "Professional online countdown timer for precise timing needs",
+    url: "https://countdown-online.com",
+    applicationCategory: "Utility",
+    operatingSystem: "All",
+    browserRequirements: "Requires JavaScript. Requires HTML5.",
+    offers: {
       "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
+      price: "0",
+      priceCurrency: "USD"
     },
-    "featureList": [
-      "Fullscreen mode",
-      "Custom themes",
-      "Sound alerts",
-      "Multiple language support",
-      "Custom text",
-      "Precise timing"
-    ]
+    featureList: ["Fullscreen mode", "Custom themes", "Sound alerts", "Multiple language support", "Custom text", "Precise timing"]
   };
 
   return (

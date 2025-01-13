@@ -122,5 +122,10 @@
     "description": "Sorry, something went wrong. Please check if the time parameter is valid or try reloading the page.",
     "backHome": "Back to Home",
     "tryAgain": "Try Again"
+  },
+  "NotFound": {
+    "title": "Page Not Found",
+    "description": "Sorry, we couldn't find the page you're looking for.",
+    "backHome": "Back to Home"
   }
 }
