@@ -41,6 +41,7 @@ export function CountdownTimer({ initialSeconds, customText = "" }: CountdownTim
   const [currentCustomText, setCurrentCustomText] = useState(defaultText);
   const [hasPlayedAlertSound, setHasPlayedAlertSound] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   const handleThemeChange = (theme: Theme) => {
     setCurrentTheme(theme);
@@ -162,6 +163,14 @@ export function CountdownTimer({ initialSeconds, customText = "" }: CountdownTim
     const savedFontSize = localStorage.getItem("timerFontSize");
     if (savedFontSize) {
       setFontSize(Number(savedFontSize));
+    } else {
+      // 根据屏幕宽度设置默认字体大小
+      const width = window.innerWidth;
+      if (width < 768) { // 移动端
+        setFontSize(72);
+      } else {
+        setFontSize(144);
+      }
     }
   }, []);
 
@@ -182,6 +191,22 @@ export function CountdownTimer({ initialSeconds, customText = "" }: CountdownTim
   const handleCloseAlert = () => {
     setShowFirstVisitAlert(false);
     sessionStorage.setItem("hasShownFirstVisitAlert", "true");
+  };
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const toggleControls = (e: React.MouseEvent) => {
+    e.stopPropagation(); // 阻止事件冒泡
+    if (isMobile) {
+      setShowControls(prev => !prev);
+    }
   };
 
   return (
@@ -259,7 +284,7 @@ export function CountdownTimer({ initialSeconds, customText = "" }: CountdownTim
             )}
             sideOffset={8}
           >
-            <div className="relative ">
+            <div className="relative">
               <div className="flex items-center gap-1">
                 <ArrowUpDown className="h-4 w-4 opacity-80" />
                 <span className="text-sm font-medium whitespace-nowrap">{t("dragToResize")}</span>
@@ -285,12 +310,26 @@ export function CountdownTimer({ initialSeconds, customText = "" }: CountdownTim
         )}
       </div>
 
-      <div className="fixed top-4 right-4 z-50" onMouseEnter={() => setShowControls(true)} onMouseLeave={() => setShowControls(false)}>
+      <div 
+        className="fixed top-4 right-4 z-50" 
+        onMouseEnter={() => !isMobile && setShowControls(true)} 
+        onMouseLeave={() => !isMobile && setShowControls(false)}
+      >
         <div
           className={`absolute right-0 flex gap-2 items-center transition-all duration-300 ${
-            showControls ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"
+            showControls ? "opacity-100 translate-x-0 block" : "opacity-0 translate-x-8 hidden"
           }`}
         >
+          {isMobile && (
+            <Button
+              size="sm"
+              variant="ghost"
+              className="hover:opacity-90 transition-opacity p-0 h-6 w-6"
+              onClick={toggleControls}
+            >
+              <X className="h-4 w-4" style={{ color: currentTheme.text }} />
+            </Button>
+          )}
           {isRunning && (
             <Button
               size="sm"
@@ -341,8 +380,9 @@ export function CountdownTimer({ initialSeconds, customText = "" }: CountdownTim
           <ThemeSelector currentTheme={currentTheme} onThemeChange={handleThemeChange} />
         </div>
         <Settings
-          className={`w-6 h-6 cursor-pointer transition-opacity duration-300 ${showControls ? "opacity-0" : "opacity-100"}`}
+          className={`w-6 h-6 cursor-pointer transition-opacity duration-300 ${showControls ? "hidden" : "block"}`}
           style={{ color: currentTheme.text }}
+          onClick={toggleControls}
         />
       </div>
 
