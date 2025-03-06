@@ -1,5 +1,5 @@
 import { MetadataRoute } from "next";
-import { locales } from "../i18n";
+import { locales, defaultLocale } from "../i18n";
 
 // 静态 sitemap 配置
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -24,41 +24,41 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     2592000, 5184000,                // 30天到60天
   ];
 
-  // 基础页面 - 每个语言版本
-  const baseUrls = locales.flatMap(locale => [
-    {
-      url: `${baseUrl}/${locale}`,
-      lastModified: new Date(),
-      changeFrequency: "daily" as const,
-      priority: locale === "en" ? 1 : 0.9
-    },
-    {
-      url: `${baseUrl}/${locale}/countdown/custom`,
-      lastModified: new Date(),
-      changeFrequency: "daily" as const,
-      priority: locale === "en" ? 0.9 : 0.8
-    }
-  ]);
+  // 基础页面 - 处理默认语言和其他语言版本
+  const baseUrls = locales.flatMap(locale => {
+    const isDefault = locale === defaultLocale;
+    const localePath = isDefault ? '' : `/${locale}`;
+    
+    return [
+      {
+        url: `${baseUrl}${localePath}`,
+        lastModified: new Date(),
+        changeFrequency: "daily" as const,
+        priority: isDefault ? 1 : 0.9
+      },
+      {
+        url: `${baseUrl}${localePath}/countdown/custom`,
+        lastModified: new Date(),
+        changeFrequency: "daily" as const,
+        priority: isDefault ? 0.9 : 0.8
+      }
+    ];
+  });
 
-  // 为每个语言生成倒计时 URL
-  const countdownUrls = locales.flatMap(locale => 
-    allDurations.map(duration => ({
-      url: `${baseUrl}/${locale}/countdown/${duration}`,
+  // 为每个语言生成倒计时 URL，默认语言不加前缀
+  const countdownUrls = locales.flatMap(locale => {
+    const isDefault = locale === defaultLocale;
+    const localePath = isDefault ? '' : `/${locale}`;
+    
+    return allDurations.map(duration => ({
+      url: `${baseUrl}${localePath}/countdown/${duration}`,
       lastModified: new Date(),
       changeFrequency: "weekly" as const,
-      priority: locale === "en" 
-        ? (duration <= 3600 ? 0.8 : 0.7)  // 英文版本优先级更高
+      priority: isDefault 
+        ? (duration <= 3600 ? 0.8 : 0.7)  // 默认语言版本优先级更高
         : (duration <= 3600 ? 0.7 : 0.6)  // 其他语言版本优先级稍低
-    }))
-  );
+    }));
+  });
 
-  // 添加根路径重定向
-  const rootUrl = {
-    url: baseUrl,
-    lastModified: new Date(),
-    changeFrequency: "daily" as const,
-    priority: 1
-  };
-
-  return [rootUrl, ...baseUrls, ...countdownUrls];
+  return [...baseUrls, ...countdownUrls];
 }
