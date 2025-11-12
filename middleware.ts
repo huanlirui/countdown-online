@@ -8,8 +8,9 @@ export default createMiddleware({
   defaultLocale: defaultLocale,
   // 修改：仅在非默认语言时显示语言前缀
   localePrefix: "as-needed",
-  // 开启语言检测，但优先使用 URL 中的语言设置
-  localeDetection: true
+  // 关闭自动语言检测，避免 Googlebot 被重定向
+  // 用户可以通过语言选择器手动切换语言
+  localeDetection: false
 });
 
 export const config = {

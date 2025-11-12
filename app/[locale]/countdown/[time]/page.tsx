@@ -15,7 +15,7 @@ export const viewport: Viewport = {
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { time } = await params;
+  const { time, locale } = await params;
   const seconds = parseInt(time);
   const minutes = Math.floor(seconds / 60);
   const hours = Math.floor(minutes / 60);
@@ -29,6 +29,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     timeDescription = `${seconds} seconds`;
   }
 
+  // 构建正确的 URL（默认语言不带前缀）
+  const isDefaultLocale = locale === 'en';
+  const baseUrl = 'https://www.countdown-online.com';
+  const pathWithLocale = isDefaultLocale ? `/countdown/${time}` : `/${locale}/countdown/${time}`;
+  const canonicalUrl = `${baseUrl}${pathWithLocale}`;
+
   return {
     title: `${timeDescription} Countdown | Online Timer Tool`,
     description: `Precise ${timeDescription} online countdown timer for exams, meetings, events, and more. Features fullscreen mode, custom themes, and sound alerts.`,
@@ -38,9 +44,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: `${timeDescription} Countdown | Online Timer Tool`,
       description: `Precise ${timeDescription} online countdown timer for exams, meetings, events, and more.`,
       type: "website",
-      locale: "en_US",
+      locale: locale === 'en' ? 'en_US' : 'zh_CN',
       siteName: "Online Timer Tool",
-      url: `https://countdown-online.com/countdown/${time}`
+      url: canonicalUrl
     },
     twitter: {
       card: "summary_large_image",
@@ -48,7 +54,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: `Precise ${timeDescription} online countdown timer for exams, meetings, events, and more.`
     },
     alternates: {
-      canonical: `https://countdown-online.com/countdown/${time}`
+      canonical: canonicalUrl,
+      languages: {
+        'en': `${baseUrl}/countdown/${time}`,
+        'zh': `${baseUrl}/zh/countdown/${time}`,
+        'x-default': `${baseUrl}/countdown/${time}`
+      }
     },
     authors: [{ name: "Online Timer Tool" }],
     category: "Productivity Tools"

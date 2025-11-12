@@ -78,7 +78,12 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: L
       images: ["/previewHome.jpg"]
     },
     alternates: {
-      canonical: "https://www.countdown-online.com"
+      canonical: locale === 'en' ? "https://www.countdown-online.com" : `https://www.countdown-online.com/${locale}`,
+      languages: {
+        'en': 'https://www.countdown-online.com',
+        'zh': 'https://www.countdown-online.com/zh',
+        'x-default': 'https://www.countdown-online.com'
+      }
     },
     category: t("category")
   };
